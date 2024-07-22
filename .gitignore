@@ -1,0 +1,4 @@
+backend/myenv/
+backend__pycache__/
+backend/*.pyc
+backend/*.pyo

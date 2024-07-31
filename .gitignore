@@ -1,4 +1,3 @@
-backend/myenv/
-backend__pycache__/
-backend/*.pyc
-backend/*.pyo
+__pycache__/ 
+.venv/
+uploads/

@@ -82,22 +82,4 @@ This project is a video interaction application that allows users to upload a vi
     - **Summary**: View a summary of the video content below the chat interface.
 3. **Reset**: Click the "Reset" button to clear the current video and upload a new one.
 
-## Project Structure
 
-```bash
-video-interaction-app/
-├── public/
-├── src/
-│   ├── components/
-│   │   ├── Chat.js
-│   │   ├── Navbar.js
-│   │   ├── Summary.js
-│   │   ├── Transcript.js
-│   │   ├── Upload.js
-│   │   ├── VideoPlayer.js
-│   ├── App.js
-│   ├── index.js
-│   ├── theme.js
-├── .env
-├── package.json
-├── README.md

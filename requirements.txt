@@ -154,7 +154,6 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 python-iso639==2024.4.27
 python-magic==0.4.15
-python-magic-bin==0.4.14
 python-multipart==0.0.9
 pytorch-lightning==2.3.3
 pytorch-metric-learning==2.5.0

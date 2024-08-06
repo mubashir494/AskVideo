@@ -22,7 +22,7 @@ def chat(video_id, prompt):
         str: The response from the chat.
     """
     try:
-        print("------------ Starting chat ------------")
+        logging.info("------------ Starting chat ------------")
 
         prompt = str(prompt)
 
@@ -82,14 +82,14 @@ def chat(video_id, prompt):
 
         prompt = f"{prompt} (answer with a maximum of 200 tokens)"
 
-        print(f"Prompt: {prompt}")
+        logging.info(f"Prompt: {prompt}")
 
         response  = qa.run(prompt, callbacks=[StreamingStdOutCallbackHandler()])
 
-        print("------------ Chat ended ------------")
+        logging.info("------------ Chat ended ------------")
         return response
     except Exception as e:
-        print(f"An error occurred: {e}")
+        logging.info(f"An error occurred: {e}")
         raise e
 
 if __name__ == '__main__':

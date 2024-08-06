@@ -16,11 +16,11 @@ def ingestion_service(video_id):
         
         status_file_path = f"./db/{video_id}.txt"
         
-        print("---------- Ingesting Transcript ---------")
+        logging.info("---------- Ingesting Transcript ---------")
 
         # check if Transcript Exist for this video
         if not os.path.exists(f'{BASE_PATH}/{video_id}.txt'):
-            print("Transcript for the file does not Exist")
+            logging.info("Transcript for the file does not Exist")
             raise FileNotFoundError(f"Transcript Not Found")
         
         
@@ -40,7 +40,7 @@ def ingestion_service(video_id):
         documents = []
         for loader in loaders:
             documents.extend(loader.load())
-            print(f"Loaded {len(documents)} documents")
+            logging.info(f"Loaded {len(documents)} documents")
         
         
             
@@ -49,21 +49,21 @@ def ingestion_service(video_id):
         documents = text_splitter.split_documents(documents)
 
 
-        print("Documents split into chunks")
+        logging.info("Documents split into chunks")
 
         ids = [str(uuid.uuid5(uuid.NAMESPACE_DNS, doc.page_content)) for doc in documents]
         unique_ids = list(set(ids))
 
-        print(f"Unique ids loaded: {len(unique_ids)}")
+        logging.info(f"Unique ids loaded: {len(unique_ids)}")
 
         seen_ids = set()
 
-        print("Removing duplicate documents")
+        logging.info("Removing duplicate documents")
 
         unique_docs = [doc for doc, id in zip(documents, ids) if id not in seen_ids and (seen_ids.add(id) or True)]
         
-        print(unique_docs)
-        print(f"Unique docs loaded: {len(unique_docs)}")    
+        logging.info(unique_docs)
+        logging.info(f"Unique docs loaded: {len(unique_docs)}")    
         
         
         vectorstoreDB = Chroma.from_documents(
@@ -79,7 +79,7 @@ def ingestion_service(video_id):
         # Once the ingestion is done, delete the status file
         os.remove(status_file_path)
         
-        print("------------ Ingestion complete ------------")
+        logging.info("------------ Ingestion complete ------------")
     except Exception as e:
         
         # If an error occurs, update the status file with the error message
@@ -88,8 +88,8 @@ def ingestion_service(video_id):
             f.write(str(e))
             f.close()
             
-         # If an error occurs, print the error message to the console and raise it again
-        print(f"An error occurred: {e}")
+         # If an error occurs, logging.info the error message to the console and raise it again
+        logging.info(f"An error occurred: {e}")
 
 if __name__ == '__main__':
     ingestion_service('5fb0e875-4935-11ef-a4e6-283a4d3fb3b6')

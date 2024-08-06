@@ -3,8 +3,10 @@ import os
 import whisperx
 import torch
 import threading
+import logging
 from ingestion_service import ingestion_service
 
+logging.basicConfig(filename='output.log', level=logging.INFO)
 
 def process_transcript(transcript):
     """
@@ -46,9 +48,9 @@ def create_transcript_whisperx(audio_path,  model_name="base", batch_size=4, com
     
     """
     try:
-        print('------------ Creating WhisperX Transcript ------------')
+        logging.info('------------ Creating WhisperX Transcript ------------')
 
-        print(f'Creating transcript using WhisperX for {audio_path}')
+        logging.info(f'Creating transcript using WhisperX for {audio_path}')
 
         ext = audio_path.split('.')[-1]
 
@@ -65,7 +67,7 @@ def create_transcript_whisperx(audio_path,  model_name="base", batch_size=4, com
             return
         
         if not os.path.isfile(audio_path):
-            print("Audio File Does not Exist")
+            logging.info("Audio File Does not Exist")
             return
         # Define the status file path
         status_file_path = f'{file_name}_status.txt'
@@ -75,31 +77,31 @@ def create_transcript_whisperx(audio_path,  model_name="base", batch_size=4, com
             f.write('In progress')
             f.close()
 
-        print(f'Creating transcript using WhisperX for {audio_path}')
+        logging.info(f'Creating transcript using WhisperX for {audio_path}')
 
         # Check for CUDA, otherwise use CPU
         if torch.cuda.is_available():
             device = "cuda"
             compute_type = "float16"
 
-        print(f"Device: {device}\n Batch Size: {batch_size}\n Compute Type: {compute_type}\n")
+        logging.info(f"Device: {device}\n Batch Size: {batch_size}\n Compute Type: {compute_type}\n")
 
         # Load the model
         model = whisperx.load_model(model_name, device, compute_type=compute_type)
         
-        print(audio_path)
+        logging.info(audio_path)
         # Transcribe the audio file
         audio = whisperx.load_audio(audio_path)
         result = model.transcribe(audio, batch_size=batch_size)
         
-        print(result)
+        logging.info(result)
         with open(transcript_file_path, 'w') as f:
             f.write(process_transcript(result["segments"]))
             f.close()
                 
         os.remove(status_file_path)
 
-        print('------------ WhisperX Transcript Created ------------')
+        logging.info('------------ WhisperX Transcript Created ------------')
         
         
         # After Generating Transcript start the Ingestion Process
@@ -108,7 +110,7 @@ def create_transcript_whisperx(audio_path,  model_name="base", batch_size=4, com
 
     except Exception as e:
         # If an error occurs, update the status file with the error message
-        print(f"Error: {e}")
+        logging.info(f"Error: {e}")
         with open(status_file_path, 'w') as f:
             f.write('Error\n')
             f.write(str(e))

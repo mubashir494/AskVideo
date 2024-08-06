@@ -5,11 +5,13 @@ from transcription_service import create_transcript_whisperx
 import uuid 
 import threading
 import os
+import logging
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50 MB limit
 CORS(app,origins=["http://localhost:3000"])
+logging.basicConfig(filename='output.log', level=logging.INFO)
 
 
 ALLOWED_EXTENSIONS = {'mp4'}

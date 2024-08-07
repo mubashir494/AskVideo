@@ -1,10 +1,13 @@
 import os
 import uuid
+import logging
 from langchain.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.document_loaders import DirectoryLoader
 
+
+logging.basicConfig(filename='output.log', level=logging.INFO)
 def ingestion_service(video_id):
     
     try:

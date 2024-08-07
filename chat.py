@@ -1,10 +1,16 @@
 import os
+import logging
 from langchain.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings
 from langchain.prompts import SystemMessagePromptTemplate, ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain.chains import RetrievalQA
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain_groq import ChatGroq
+
+
+
+
+logging.basicConfig(filename='output.log', level=logging.INFO)
 
 def chat(video_id, prompt):
     """

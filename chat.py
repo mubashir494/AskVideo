@@ -33,8 +33,8 @@ def chat(video_id, prompt):
         prompt = str(prompt)
 
         DB_BASE_DIR = './db'
-        HF_API_KEY = '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'
-        GROQ_API_KEY = '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'
+        HF_API_KEY = 'hf_qGGgLOoPJVtyHxxTBCkhFSZnLJcvGFM'
+        GROQ_API_KEY = 'gsk_fGkvDnIOiDTypeO2lVFiWGdyb3FYr0fhV57wPr92gVrxiIpWm'
         
         
         if not HF_API_KEY:
